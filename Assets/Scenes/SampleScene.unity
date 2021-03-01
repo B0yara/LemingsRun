@@ -410,6 +410,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5690389910237156531, guid: 575352bd6c5d196459142dfdfa692761, type: 3}
+      propertyPath: open
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8351722222055159483, guid: 575352bd6c5d196459142dfdfa692761, type: 3}
       propertyPath: m_Name
       value: Brige
