@@ -143,6 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRotation: 0
   turningPart: {fileID: 336686921037181531}
+  rotationSpeed: 0.1
 --- !u!1 &4438700876222811711
 GameObject:
   m_ObjectHideFlags: 0

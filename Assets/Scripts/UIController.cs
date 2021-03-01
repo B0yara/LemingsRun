@@ -14,4 +14,8 @@ public class UIController : MonoBehaviour
     {
         Messenger.Broadcast(GameEvent.RED_CLICK);
     }
+    public void OnYellowClick()
+    {
+        Messenger.Broadcast(GameEvent.RUN);
+    }
 }

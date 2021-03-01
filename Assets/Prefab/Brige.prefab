@@ -76,6 +76,7 @@ MonoBehaviour:
   firstSash: {fileID: 2194841012428984176}
   secondSash: {fileID: 1730103376072853317}
   open: 0
+  rotationSpeed: 0.2
 --- !u!1001 &1347928225107735073
 PrefabInstance:
   m_ObjectHideFlags: 0

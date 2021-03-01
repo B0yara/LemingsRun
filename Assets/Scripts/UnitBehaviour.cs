@@ -16,8 +16,8 @@ public class UnitBehaviour : MonoBehaviour
 
     void Start()
     {
+        Messenger.AddListener(GameEvent.RUN, Run);
 
-        
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }
@@ -25,8 +25,6 @@ public class UnitBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
         if(!controller.isGrounded)
         {
             
@@ -38,6 +36,10 @@ public class UnitBehaviour : MonoBehaviour
             {
                 direction = transform.TransformDirection(Vector3.forward * speed);
             }
+            else
+            {
+                direction = transform.TransformDirection(Vector3.zero);
+            }
             direction.y = 0;
         }
          anim.SetBool("isRuning", isRunning);
@@ -48,4 +50,9 @@ public class UnitBehaviour : MonoBehaviour
 
         controller.Move(direction * Time.deltaTime);
     }
+    private void Run()
+    {
+        isRunning = !isRunning;
+    }
+    
 }
