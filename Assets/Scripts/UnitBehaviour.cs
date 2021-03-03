@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnitBehaviour : MonoBehaviour
 {
-    Rigidbody rigidBody;
+    
     [SerializeField]
     [Range(0,10f)]
     float speed;
@@ -13,6 +13,7 @@ public class UnitBehaviour : MonoBehaviour
    public Animator anim;
   CharacterController controller;
     Vector3 direction = Vector3.zero;
+    GameController gameController;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class UnitBehaviour : MonoBehaviour
 
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        gameController = FindObjectOfType<GameController>().GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -43,16 +45,21 @@ public class UnitBehaviour : MonoBehaviour
             direction.y = 0;
         }
          anim.SetBool("isRuning", isRunning);
-        if(Input.GetKeyUp(KeyCode.F))
-        {
-            anim.SetTrigger("isDancing");
-        }
-
         controller.Move(direction * Time.deltaTime);
+
+        if(transform.position.y<0)
+        {
+            Messenger<GameObject>.Broadcast(GameEvent.UNIT_DISABLED, gameObject);
+        }
     }
     private void Run()
     {
         isRunning = !isRunning;
     }
-    
+    public void StartDancing()
+    {
+        isRunning = false;
+        anim.SetBool("isRuning", isRunning);
+        anim.SetTrigger("isDancing");
+    }
 }

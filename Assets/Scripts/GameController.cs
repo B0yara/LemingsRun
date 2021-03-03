@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     Transform start;
     [SerializeField]
     GameObject prebafUnit;
+    int finishedUnits;
+ 
    
   
     
@@ -19,8 +21,12 @@ public class GameController : MonoBehaviour
     void Start()
     {
         start = GameObject.FindGameObjectWithTag("Start").GetComponent<Transform>();
+        finishedUnits = 0;
+        units.Clear();
         SpawnUnits(countUnits);
-        
+        Messenger.AddListener(GameEvent.UNIT_FINISHED, UnitFinished);
+        Messenger<GameObject>.AddListener(GameEvent.UNIT_DISABLED, RemoveUnit);
+
     }
     
     // Update is called once per frame
@@ -31,13 +37,40 @@ public class GameController : MonoBehaviour
 
     void SpawnUnits(int count)
     {
-        for(int i =0;i<count;i++)
+        
+        for (int i =0;i<count;i++)
         {
-            Transform spawnPoint= start;
-           spawnPoint.position = start.position + Vector3.left * i;
-            units.Add(Instantiate(prebafUnit,spawnPoint.position,spawnPoint.rotation));
+            units.Add(Instantiate(prebafUnit, start.position + Vector3.left * i, start.rotation));
+            Debug.Log(units[i]);
             cinemachine.AddMember(units[i].transform, 1, 0.5f);
         }
+    }
+    void UnitFinished()
+    {
+
+        finishedUnits++;
+
+        if (units.Count == finishedUnits)
+        {
+            Messenger<int>.Broadcast(GameEvent.ALL_FINISHED, finishedUnits);
+        }
+    }
+    public void RemoveUnit(GameObject unit)
+    {
+        cinemachine.RemoveMember(unit.transform);
+        units.Remove(unit);
+        Destroy(unit.gameObject);
+        
+        if(units.Count==0)
+        {
+            GameOver();
+        }
+    }
+    private void GameOver()
+    {
+        Messenger.Broadcast(GameEvent.GAME_OVER);
+        Messenger.RemoveListener(GameEvent.UNIT_FINISHED, UnitFinished);
+        Messenger<GameObject>.RemoveListener(GameEvent.UNIT_DISABLED, RemoveUnit);
     }
     
 }
