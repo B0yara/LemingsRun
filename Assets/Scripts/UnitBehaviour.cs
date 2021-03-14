@@ -14,6 +14,9 @@ public class UnitBehaviour : MonoBehaviour
   CharacterController controller;
     Vector3 direction = Vector3.zero;
     GameController gameController;
+    public bool isLeftJumping = false;
+    public bool isRightJumping = false;
+    public bool isCrowling = false;
 
     void Start()
     {
@@ -22,12 +25,16 @@ public class UnitBehaviour : MonoBehaviour
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         gameController = FindObjectOfType<GameController>().GetComponent<GameController>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!controller.isGrounded)
+        anim.SetBool("IsLeftJumping", isLeftJumping);
+        anim.SetBool("IsRightJumping", isRightJumping);
+        anim.SetBool("IsCrowling", isCrowling);
+        if (!controller.isGrounded)
         {
             
             direction.y =  gravity;
@@ -62,4 +69,6 @@ public class UnitBehaviour : MonoBehaviour
         anim.SetBool("isRuning", isRunning);
         anim.SetTrigger("isDancing");
     }
+   
+    
 }

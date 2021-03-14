@@ -15,5 +15,12 @@ public class Trap : MonoBehaviour
     {
         
     }
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        BodyPart bp = other.GetComponent<BodyPart>();
+        if (bp!=null)
+        {
+            bp.Hurt();
+        }
+    }
 }

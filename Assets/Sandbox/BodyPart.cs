@@ -6,15 +6,20 @@ using MudBun;
 public class BodyPart : MonoBehaviour
 {
     [SerializeField]
-    private int priority;
+    public int priority;
     MudMaterial material;
     [SerializeField]
     GameObject mark;
+    public  BodyPart chain;
+    public GameObject blop;
+   public GameObject parent;
+    
     // Start is called before the first frame update
     void Start()
     {
          material = GetComponent<MudMaterial>();
-
+       
+        
     }
 
     // Update is called once per frame
@@ -23,19 +28,26 @@ public class BodyPart : MonoBehaviour
         
     }
    
-    private void OnCollisionEnter(Collision collision)
+    public void Hurt()
     {
-        Debug.Log("Топ");
-        Vector3 position = collision.contacts[0].point;
-        Quaternion rotation = Quaternion.LookRotation(collision.contacts[0].normal);
         
-       GameObject markI = Instantiate(mark, position, rotation);
-        markI.GetComponent<SpriteRenderer>().color = material.Color+material.Emission;
-        StartCoroutine(Remove(markI));
+        if (chain!=null)
+        {
+            chain.Hurt();
+        }
+        blop.GetComponent<MudMaterial>().Color=material.Color;
+        blop.GetComponent<MudMaterial>().Emission = material.Emission;
+        Instantiate(blop, transform.position, Quaternion.identity,parent.transform);
+   
+           
+
+        gameObject.SetActive(false);
+        if (priority == 5)
+        {
+            parent.GetComponent<Dismember>().FootHurt();
+        }
     }
-    private IEnumerator Remove (GameObject mark)
-    {
-        yield return new WaitForSeconds(1f);
-        Destroy(mark.gameObject);
-    }
+        
+       
+       
 }
