@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MudBun;
 
 public class Dismember : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class Dismember : MonoBehaviour
     {
         
     }
-    public void Healing()
+    public void Healing(MudSharedMaterialBase mateial)
     {
         BodyPart needHealing = null;
         foreach (BodyPart bp in bodyParts)
@@ -37,6 +38,11 @@ public class Dismember : MonoBehaviour
                  }
             }
         needHealing.gameObject.SetActive(true);
+        needHealing.GetComponent<MudMaterial>().SharedMaterial = mateial;
+        if(needHealing.priority==5)
+        {
+            FootHurt();
+        }
     }
 
     public void FootHurt()
@@ -54,12 +60,25 @@ public class Dismember : MonoBehaviour
         {
             if(leftFoot.gameObject.activeSelf)
             {
+                unit.isCrowling = false;
                 unit.isLeftJumping=true;
             }
             else
             {
+                unit.isCrowling = false;
                 unit.isRightJumping = true;
             }
+        }
+        if (i == 2)
+        {
+            
+                
+                unit.isLeftJumping = false;
+            
+            
+                unit.isCrowling = false;
+                unit.isRightJumping = false;
+            
         }
     }
 }
